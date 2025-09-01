@@ -1,0 +1,180 @@
+/* Import a friendly, rounded font */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+/* --- 1. Color Palette & Variables --- */
+:root {
+    --primary-purple: #6c63ff;
+    --primary-purple-dark: #574feb;
+    --bg-color: #f5f6fa;
+    --card-color: #ffffff;
+    --text-dark: #3f3d56;
+    --text-light: #8d8d8d;
+    --border-color: #e4e4e4;
+    --error-red: #d9534f;
+    --error-red-light: rgba(217, 83, 79, 0.15);
+}
+
+/* --- 2. Base Styles --- */
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- 3. Main Container --- */
+.container {
+    max-width: 440px;
+    width: 100%;
+    background: var(--card-color);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+    text-align: center;
+}
+
+/* --- 4. Typography --- */
+h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+p.subtitle {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin: 0 0 32px 0;
+}
+
+/* --- 5. Form & Input Elements --- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input-wrapper {
+    position: relative;
+    text-align: left;
+}
+
+input[type="url"] {
+    background-color: var(--bg-color);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--text-dark);
+    padding: 16px 20px;
+    border: 1.5px solid transparent;
+    border-radius: 99px; /* Pill shape */
+    outline: none;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+input[type="url"]::placeholder {
+    color: var(--text-light);
+}
+
+input[type="url"]:focus {
+    border-color: var(--primary-purple);
+    background-color: var(--card-color);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+
+button {
+    background-color: var(--primary-purple);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 99px; /* Pill shape */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: var(--primary-purple-dark);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+
+/* --- 6. CUSTOM VALIDATION STYLES --- */
+.error-message {
+    display: none;
+    color: var(--error-red);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 8px;
+    padding-left: 20px;
+}
+.was-validated input:invalid {
+    border-color: var(--error-red);
+    background-color: var(--card-color);
+}
+.was-validated input:invalid:focus {
+    box-shadow: 0 0 0 3px var(--error-red-light);
+}
+.was-validated input:invalid + .error-message {
+    display: block;
+}
+
+
+/* --- 7. Result & Error States --- */
+.result {
+    display: none;
+    margin-top: 24px;
+    padding: 16px 20px;
+    border-radius: 16px;
+    background-color: var(--bg-color);
+    text-align: left;
+    word-break: break-all;
+}
+.result.visible {
+    display: block;
+}
+.result.error {
+    background-color: var(--error-red-light);
+    color: var(--error-red);
+    font-weight: 600;
+}
+.result a {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-decoration: none;
+    margin-left: 8px;
+}
+.result a:hover {
+    color: var(--primary-purple);
+}
+
+/* --- 8. Responsive Design --- */
+/* NEW: Added media query for mobile devices */
+@media (max-width: 480px) {
+    body {
+        padding: 16px; /* Reduce space around the main card */
+    }
+
+    .container {
+        padding: 24px; /* Reduce padding inside the card */
+    }
+
+    h1 {
+        font-size: 1.9rem; /* Make the main title smaller */
+    }
+
+    p.subtitle {
+        font-size: 1rem; /* Make the subtitle a bit smaller */
+    }
+}
