@@ -41,9 +41,15 @@ form.addEventListener('submit', async (e) => {
     try {
 
         await new Promise(resolve => setTimeout(resolve, 1000));
-        const data = {
-            shortUrl: `https://short.link/${Math.random().toString(36).substring(2, 8)}`
-        };
+        // Call your backend API to get the actual shortened URL
+        const response = await fetch('http://localhost:5000/api/shorten', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ originalUrl: longUrl })
+        });
+        const data = await response.json();
 
         if (data.shortUrl) {
             const resultHTML = `
