@@ -42,7 +42,7 @@ form.addEventListener('submit', async (e) => {
 
         await new Promise(resolve => setTimeout(resolve, 1000));
         // Call your backend API to get the actual shortened URL
-        const response = await fetch('http://localhost:5000/api/shorten', {
+    const response = await fetch(`/api/shorten`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json'

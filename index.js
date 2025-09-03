@@ -25,5 +25,6 @@ app.use('/', rootRouter);
 app.use('/api', urlRouter);
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    const host = process.env.HOST || 'localhost';
+    console.log(`Server started at http://${host}:${port}`);
 });
