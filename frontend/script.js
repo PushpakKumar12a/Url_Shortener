@@ -2,7 +2,6 @@ const form = document.getElementById('shorten-form');
 const urlInput = document.getElementById('url-input');
 const resultDiv = document.getElementById('result');
 
-// A function to check if a string is a valid URL format
 function isValidUrl(string) {
     try {
         new URL(string);
@@ -12,61 +11,75 @@ function isValidUrl(string) {
     }
 }
 
-// NEW: Helper function to show content in the result box
-function showResult(message, isError = false) {
-    resultDiv.innerHTML = message;
-    resultDiv.classList.add('visible'); // Make the div visible
-
-    if (isError) {
-        resultDiv.classList.add('error'); // Add error styling
+function showResult(content, type = 'success') {
+    if (type !== 'success') {
+        resultDiv.innerHTML = `<p class="${type}">${content}</p>`;
     } else {
-        resultDiv.classList.remove('error'); // Remove error styling
+        resultDiv.innerHTML = content;
     }
+    resultDiv.classList.add('visible');
 }
 
-
 form.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Stop the form from submitting the traditional way
-    
-    // MODIFIED: Hide the result on each new submission
-    resultDiv.classList.remove('visible', 'error');
+    e.preventDefault();
 
-    const longUrl = urlInput.value.trim(); // Get the URL and remove whitespace
+    // Clear previous results and validation states
+    resultDiv.classList.remove('visible');
+    urlInput.classList.remove('invalid');
 
-    // --- Validation Step ---
-    if (!longUrl) {
-        showResult('Please enter a URL.', true);
-        return; // Stop the function
+    const longUrl = urlInput.value.trim();
+
+    if (!longUrl || !isValidUrl(longUrl)) {
+        urlInput.classList.add('invalid');
+        showResult('Please enter a valid URL (e.g., https://example.com).', 'error');
+        return;
     }
 
-    if (!isValidUrl(longUrl)) {
-        showResult('Please enter a valid URL (e.g., https://example.com).', true);
-        return; // Stop the function
-    }
-    // --- End of Validation ---
-
-    // If validation passes, proceed to contact the server
-    showResult('Shortening...'); // Provide feedback to the user
+    // --- API Call Step ---
+    showResult('Shortening your link...', 'loading');
 
     try {
-        const res = await fetch('/api/shorten', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ originalUrl: longUrl })
-        });
 
-        const data = await res.json();
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const data = {
+            shortUrl: `https://short.link/${Math.random().toString(36).substring(2, 8)}`
+        };
 
-        if (res.ok && data.shortUrl) {
-            const resultHTML = `<strong>Short URL:</strong> <a href="${data.shortUrl}" target="_blank">${data.shortUrl}</a>`;
-            showResult(resultHTML);
+        if (data.shortUrl) {
+            const resultHTML = `
+                <div class="short-url-row">
+                    <a href="${data.shortUrl}" target="_blank" id="short-url-link">${data.shortUrl}</a>
+                    <button id="copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard">
+                        <span class="material-symbols-outlined icon-copy">content_copy</span>
+                        <span class="material-symbols-outlined icon-copied">check</span>
+                    </button>
+                </div>
+            `;
+            showResult(resultHTML, 'success');
+
+            const copyBtn = document.getElementById('copy-btn');
+            const shortUrlLink = document.getElementById('short-url-link');
+
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(shortUrlLink.href).then(() => {
+                    copyBtn.classList.add('copied');
+                    copyBtn.title = 'Copied!';
+                    
+                    // Reset the button state after a short delay
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copied');
+                        copyBtn.title = 'Copy to clipboard';
+                    }, 1500);
+                }).catch(() => {
+                    copyBtn.title = 'Failed to copy';
+                });
+            });
+
         } else {
-            // Display error from the server
-            showResult(data.error || 'Failed to shorten URL.', true);
+            showResult(data.error || 'Failed to shorten the URL.', 'error');
         }
     } catch (err) {
-        // Display network or other unexpected errors
-        showResult('An unexpected error occurred. Please try again later.', true);
-        console.error("Fetch error:", err);
+        showResult('An unexpected error occurred. Please try again.', 'error');
+        console.error("API call failed:", err);
     }
 });

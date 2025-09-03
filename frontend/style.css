@@ -1,22 +1,18 @@
-/* Import a friendly, rounded font */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
-
-/* --- 1. Color Palette & Variables --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Quicksand:wght@700&display=swap');
 :root {
-    --primary-purple: #6c63ff;
-    --primary-purple-dark: #574feb;
-    --bg-color: #f5f6fa;
+    --primary-blue: #4f46e5;
+    --primary-blue-dark: #4338ca;
+    --bg-color: #f0f2f5;
     --card-color: #ffffff;
-    --text-dark: #3f3d56;
-    --text-light: #8d8d8d;
-    --border-color: #e4e4e4;
-    --error-red: #d9534f;
-    --error-red-light: rgba(217, 83, 79, 0.15);
+    --text-dark: #1f2937;
+    --text-light: #6b7280;
+    --border-color: #d1d5db;
+    --error-red: #ef4444;
+    --error-red-light: #fee2e2;
+    --blue-glow: rgba(79, 70, 229, 0.25);
 }
-
-/* --- 2. Base Styles --- */
 body {
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-dark);
     margin: 0;
@@ -25,156 +21,192 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-image: linear-gradient(135deg, #e0f2fe 0%, #f0f2f5 100%);
 }
-
-/* --- 3. Main Container --- */
 .container {
-    max-width: 440px;
+    max-width: 480px;
     width: 100%;
     background: var(--card-color);
     padding: 40px;
-    border-radius: 24px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
     text-align: center;
+    border: 1px solid #ffffff;
 }
-
-/* --- 4. Typography --- */
 h1 {
-    font-size: 2.25rem;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2.5rem;
     font-weight: 700;
     margin: 0 0 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+.icon-header {
+    font-size: 2.8rem;
+    color: var(--primary-blue);
 }
 p.subtitle {
     color: var(--text-light);
     font-size: 1.1rem;
     margin: 0 0 32px 0;
 }
-
-/* --- 5. Form & Input Elements --- */
 form {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.input-wrapper {
-    position: relative;
-    text-align: left;
-}
-
 input[type="url"] {
-    background-color: var(--bg-color);
     font-family: inherit;
     font-size: 16px;
     color: var(--text-dark);
     padding: 16px 20px;
-    border: 1.5px solid transparent;
-    border-radius: 99px; /* Pill shape */
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
     outline: none;
-    transition: all 0.2s ease;
+    transition: all 0.2s ease-in-out;
     width: 100%;
-    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    box-sizing: border-box;
 }
-
 input[type="url"]::placeholder {
     color: var(--text-light);
 }
-
 input[type="url"]:focus {
-    border-color: var(--primary-purple);
-    background-color: var(--card-color);
-    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 4px var(--blue-glow);
+}
+input[type="url"].invalid {
+    border-color: var(--error-red);
+}
+input[type="url"].invalid:focus {
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25);
 }
 
 button {
-    background-color: var(--primary-purple);
+    background-color: var(--primary-blue);
     color: #ffffff;
     font-family: inherit;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 600;
     padding: 16px 20px;
     border: none;
-    border-radius: 99px; /* Pill shape */
+    border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: all 0.2s ease-in-out;
 }
-
 button:hover {
-    background-color: var(--primary-purple-dark);
+    background-color: var(--primary-blue-dark);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
-
 button:active {
     transform: translateY(0);
+    box-shadow: none;
 }
-
-
-/* --- 6. CUSTOM VALIDATION STYLES --- */
-.error-message {
-    display: none;
-    color: var(--error-red);
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 8px;
-    padding-left: 20px;
-}
-.was-validated input:invalid {
-    border-color: var(--error-red);
-    background-color: var(--card-color);
-}
-.was-validated input:invalid:focus {
-    box-shadow: 0 0 0 3px var(--error-red-light);
-}
-.was-validated input:invalid + .error-message {
-    display: block;
-}
-
-
-/* --- 7. Result & Error States --- */
 .result {
-    display: none;
     margin-top: 24px;
-    padding: 16px 20px;
-    border-radius: 16px;
-    background-color: var(--bg-color);
-    text-align: left;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
     word-break: break-all;
 }
 .result.visible {
-    display: block;
+    opacity: 1;
+    transform: translateY(0);
 }
-.result.error {
-    background-color: var(--error-red-light);
-    color: var(--error-red);
+.result p {
+    padding: 14px 20px;
+    border-radius: 12px;
     font-weight: 600;
 }
-.result a {
+.result p.error {
+    background-color: var(--error-red-light);
+    color: var(--error-red);
+}
+.result p.loading {
+    background-color: #e0e7ff;
+    color: #4338ca;
+}
+.short-url-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 10px 10px 10px 20px;
+}
+.short-url-row a {
+    flex-grow: 1;
     font-size: 1.1rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--text-dark);
     text-decoration: none;
-    margin-left: 8px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.result a:hover {
-    color: var(--primary-purple);
+.short-url-row a:hover {
+    color: var(--primary-blue-dark);
+    text-decoration: underline;
 }
 
-/* --- 8. Responsive Design --- */
-/* NEW: Added media query for mobile devices */
-@media (max-width: 480px) {
+#copy-btn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: #e5e7eb;
+    color: var(--text-dark);
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden; 
+}
+#copy-btn:hover {
+    background: #d1d5db;
+    box-shadow: none;
+    transform: none;
+}
+#copy-btn .material-symbols-outlined {
+    position: absolute;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    font-size: 22px;
+}
+#copy-btn .icon-copy {
+    opacity: 1;
+    transform: scale(1);
+}
+#copy-btn .icon-copied {
+    opacity: 0;
+    transform: scale(0.5);
+    color: var(--primary-blue-dark);
+}
+#copy-btn.copied .icon-copy {
+    opacity: 0;
+    transform: scale(0.5);
+}
+#copy-btn.copied .icon-copied {
+    opacity: 1;
+    transform: scale(1);
+}
+@media (max-width: 520px) {
     body {
-        padding: 16px; /* Reduce space around the main card */
+        padding: 16px;
     }
-
     .container {
-        padding: 24px; /* Reduce padding inside the card */
+        padding: 32px 24px;
     }
-
     h1 {
-        font-size: 1.9rem; /* Make the main title smaller */
+        font-size: 2.1rem;
+        gap: 8px;
     }
-
-    p.subtitle {
-        font-size: 1rem; /* Make the subtitle a bit smaller */
+    .icon-header {
+        font-size: 2.4rem;
     }
 }

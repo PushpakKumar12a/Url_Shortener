@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickLink | URL Shortener</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
     <div class="container">
-        <h1>QuickLink</h1>
+        <h1>
+            <span class="material-symbols-outlined icon-header">link</span>
+            QuickLink
+        </h1>
         <p class="subtitle">Your friendly neighborhood URL shortener.</p>
         
         <form id="shorten-form" novalidate>
             <div class="input-wrapper">
                 <input type="url" id="url-input" placeholder="Enter a long URL to make it short..." required>
-                <span class="error-message">Please enter a valid URL.</span>
-            </div>
+                </div>
             <button type="submit">Shorten</button>
         </form>
         
         <div class="result" id="result">
-        </div>
+            </div>
     </div>
     
     <script src="script.js"></script>
