@@ -209,4 +209,7 @@ button:active {
     .icon-header {
         font-size: 2.4rem;
     }
+    .result{
+        max-width: 400px;
+    }
 }
